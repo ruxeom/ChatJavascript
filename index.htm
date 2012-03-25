@@ -1,0 +1,64 @@
+﻿<!doctype html>
+<html>
+
+<head>
+    <meta charset="ISO-8859-1">
+    <title>JavaScript Chat</title>
+</head>
+
+<body>
+
+
+  
+    <script type="text/javascript">
+
+        var echo = "ws://echo.websocket.org/";
+        var output;
+
+        function init() {
+            output = document.getElementById("output");
+            test();
+        }
+
+        function test() {
+            websocket = new WebSocket(echo);
+            websocket.onopen = function(evt) { open(evt) };
+            websocket.onclose = function (evt) { close(evt) };
+            websocket.onmessage = function (evt) { Message(evt) }
+        }
+
+        function open(evt) {
+            writeText("Connected!");
+            send("hi! :D");
+        }
+
+        function close(evt) {
+            writeText("Disconnected!");
+        }
+
+        function Message(evt) {
+            writeText(evt.data);
+            websocket.close();
+        }
+
+        function send(textString) {
+            writeText("sent: " + textString);
+            websocket.send(textString);
+        }
+
+        function writeText(textString) 
+        {
+            var p = document.createElement("p");
+            p.style.wordWrap = "break-down";
+            p.innerHTML = textString;
+            output.appendChild(p);
+        }
+
+        window.addEventListener("load", init, false);
+
+    </script>
+    <div id="output"></div>
+    
+
+</body>
+</html>
