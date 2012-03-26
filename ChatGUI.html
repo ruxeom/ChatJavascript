@@ -3,13 +3,26 @@
 	<head>
 		<script type="text/javascript" src="scripts/jquery.js"></script>
 		<script type="text/javascript" src="scripts/CommunicationManager.js"></script>
+		<script type="text/javascript" src="scripts/LoginManager.js"></script>
+		<script type="text/javascript" src="scripts/JSONObjectConverter.js"></script>
+        <script type="text/javascript" src="scripts/GUIManager.js"></script>
+		<script type="text/javascript" src="scripts/json.js"></script>
+		<script type="text/javascript" src="scripts/jsonvalidator.js"></script>
+		<script type="text/javascript" src="scripts/Main.js"></script>
 		<link type="text/css" rel="style/style.css">
 	</head>
 	<body>
+    	<div id="loginpanel" class="login">
+        	<label for="nickbox">Enter your nickname</label>
+            <input id="nickbox" type="text">
+            <input id="nickbutton" type="button" value="Try">
+        </div>
 		<div id="title">
 			<p>Hello, user</p>
 		</div>
 		<div id="contactpanel">
+        	<input type="button" id="addcontactbutton" value="Add Contact">
+            <input type="button" id="creategroup" value="Create a Group">
 			<list id="contactlist">
 				<li id="Friend1">Friend1</li>
 			<list>

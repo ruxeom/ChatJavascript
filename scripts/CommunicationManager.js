@@ -23,7 +23,7 @@ function CommunicationManager() {
 			console.log('connection closed');
 		},
 		"removeListener": function(listener) {
-			socket.removeEventListener(listener);
+			socket.removeEventListener('message', listener, false);
 		}
 	});
 }
