@@ -75,7 +75,7 @@ function GUIManager () {
 			if(obj) {
 				if(test) {
 					//console.log("From "+obj.To+ ":\n"+obj.Message);
-					
+					guimanager.displayMessage(obj);
 				}
 				else {
 					if(obj.From == GroupBot) {
@@ -93,6 +93,7 @@ function GUIManager () {
 					}
 					//display the message
 					console.log("From "+obj.From+ ":\n"+obj.Message);
+					guimanager.displayMessage(obj);
 				}
 			}
 			
@@ -111,7 +112,24 @@ function GUIManager () {
 			}
 			return -1;
 		},
-		
+		"displayMessage":function(messageobj) {
+			var message = messageobj.Message;
+			var chatlog = $('#contactlog');
+			chatlog.append('<span id="from"></span><br/>');
+			chatlog.append('<span id="newspan"></span><br/>');
+			$('#newspan').text(message);
+			if(test) {
+				$('#from').text("From " + messageobj.To + ":")
+			}
+			else {
+				$('#from').text("From " + messageobj.From + ":")
+			}
+			$('#from').removeAttr('id');
+			$('#newspan').removeAttr('id');
+		},
+		"dumpToLog": function(e) {
+			$('#log').append(e.data);
+		}
 	}
 	);	
 }

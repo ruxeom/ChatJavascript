@@ -16,8 +16,6 @@ function CommunicationManager() {
 		}, 
 		"sendMessage": function(message){
 			socket.send(message);
-			console.log(message);
-			console.log('sent: ' +message);
 		},
 		"closeConnection": function() {
 			socket.close();

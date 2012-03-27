@@ -9,4 +9,5 @@ window.onload = function() {
 	guimanager.communicator = login.communicator;
 	guimanager.createLoginGUI(login);
 	login.openConnection(serverurl);
+	this.logger = new Logger(guimanager.communicator);
 }
