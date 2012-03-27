@@ -1,7 +1,8 @@
 function JSONObjectConverter() {
 	this.counter = 1;
+	this.validator;
 	$.extend(this, {
-		"createJSONLogin": function(nickname) {
+		"createLoginObject": function(nickname) {
 			if(nickname === undefined) {
 				nickname = "User"+this.counter;
 				this.counter++;
@@ -9,42 +10,21 @@ function JSONObjectConverter() {
 			var loginobj = {};
 			loginobj.To = "NickBot";
 			loginobj.Message = nickname;
-			var messagestring = JSON.stringify(loginobj);
-			return messagestring;
+			console.log(loginobj);
+			return loginobj;
 		},
-		"createJSONMessage": function(to, message) {
+		"createMessageObject": function(to, message) {
 			if(to === undefined) {
 				return;
 			}
 			var messageobj = {};
 			messageobj.To = to;
 			messageobj.Message = message;
-			var messagestring = JSON.stringify(messageobj);
-			return messagestring;
+			console.log(messageobj);
+			return messageobj;
 		},
 		"createGroupMessageObject": function(to, message) {
-		},
-		"validateMessage": function (jsonobj) {
-			var validObject = this.validator(jsonobj);
-			if(validObject) {
-				return validObject;
-			}
 		}
 	}
 	);
-	var isTest = test;
-	this.schema;
-	if(isTest) {
-		this.schema = {
-		"To": "string",
-    	"Message": "string" 
-		}
-	}
-	else {
-		this.schema = {
-		"From": "string",
-    	"Message": "string" 
-		}
-	}
-	this.validator = JSONValidator(this.schema);
 }
