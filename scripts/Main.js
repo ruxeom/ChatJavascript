@@ -1,8 +1,9 @@
 window.onload = function() {
-	this.nickname = undefined;
+	//Change this to enter "real" mode
+	this.test = true;
+	//Use a string containing the url of the websocketserver
 	this.serverurl = undefined;
 	this.login = new LoginManager();
-	this.validator = JSONValidator(schema, true);
 	this.guimanager = new GUIManager();
 	guimanager.JSONConverter = login.JSONConverter;
 	guimanager.communicator = login.communicator;

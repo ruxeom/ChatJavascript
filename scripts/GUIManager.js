@@ -29,7 +29,7 @@ function GUIManager () {
 				return;
 			}
 //			console.log($.type(this.contactList));
-			var messageobj = this.JSONConverter.createMessageObject(this.contactList[this.selectedcontact].name, input.val());
+			var messageobj = this.JSONConverter.createJSONMessage(this.contactList[this.selectedcontact].name, input.val());
 			input.val("");
 			this.communicator.sendMessage(messageobj);
 		},
@@ -38,11 +38,10 @@ function GUIManager () {
 			$('#addcontactbutton').on("click", function() {
 				var contact = prompt("Type the contact's name:");
 				if(contact != null && contact.length > 0) {
-					alert ('correct username');
 					manager.addContact(contact);
 				}
 			});
-			this.communicator.addListener(guimanager.messageListener);
+			this.communicator.addListener('message',guimanager.messageListener);
 			$('#inputtextarea').on("keydown", this.onType);	
 			$('#sendbutton').on("click", this.sendMessage);
 		},
