@@ -14,6 +14,14 @@ function JSONObjectConverter() {
 			return loginobj;
 		},
 		"createMessageObject": function(to, message) {
+			if(to === undefined) {
+				return;
+			}
+			var messageobj = {};
+			messageobj.To = to;
+			messageobj.Message = message;
+			console.log(messageobj);
+			return messageobj;
 		},
 		"createGroupMessageObject": function(to, message) {
 		}

@@ -4,6 +4,8 @@ window.onload = function() {
 	this.login = new LoginManager();
 	this.validator = JSONValidator(schema, true);
 	this.guimanager = new GUIManager();
+	guimanager.JSONConverter = login.JSONConverter;
+	guimanager.communicator = login.communicator;
 	guimanager.createLoginGUI(login);
 	login.openConnection(serverurl);
 }
@@ -19,7 +21,8 @@ function validateLogin(event) {
 //	if(JSONConverter.validator(event.data)){
 //		var obj = JSONConverter.parse(event.data);
 //		if (obj.From == 'NickBot' && obj.Message == 'Success') {
-			login.removeListener();
+			login.removeListener(validateLogin);
+			//alert('Login successful');
 			guimanager.createChatGUI();
 //		}
 //	}

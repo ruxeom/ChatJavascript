@@ -1,7 +1,7 @@
 function CommunicationManager() {
 	$.extend(this, {
 		"onMessage": function(event) {
-			console.log('recieved: '+ event.data);
+			console.log("received:" + event.data);
 		},
 		"addListener": function(funcname) {
 			socket.addEventListener('message', funcname, false);

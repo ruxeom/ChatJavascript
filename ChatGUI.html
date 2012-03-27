@@ -9,6 +9,7 @@
 		<script type="text/javascript" src="scripts/json.js"></script>
 		<script type="text/javascript" src="scripts/jsonvalidator.js"></script>
 		<script type="text/javascript" src="scripts/Main.js"></script>
+        <script type="text/javascript" src="scripts/Contact.js"></script>
 		<link type="text/css" rel="style/style.css">
 	</head>
 	<body>
@@ -17,26 +18,28 @@
             <input id="nickbox" type="text">
             <input id="nickbutton" type="button" value="Try">
         </div>
+	<div id="clientpanel">
 		<div id="title">
-			<p>Hello, user</p>
+			<p id="nickname">Hello, user</p>
 		</div>
 		<div id="contactpanel">
         	<input type="button" id="addcontactbutton" value="Add Contact">
             <input type="button" id="creategroup" value="Create a Group">
 			<list id="contactlist">
-				<li id="Friend1">Friend1</li>
-			<list>
+			</list>
 		</div>
 		<div id="chatpanel">
-			<input id="boldbutton" type="button" value="B">
-			<input id="italicsbutton" type="button" Value="I">
-			<TEXTAREA id="textarea" rows="4" cols="50"></TEXTAREA>
-			<input id="sendbutton" type="button" value="Send">
+            <TEXTAREA id="contactlog" rows="20" cols="50"readonly="readonly"></TEXTAREA>
+            <div id="input">
+				<TEXTAREA id="inputtextarea" rows="4" cols="50"></TEXTAREA>
+				<input id="sendbutton" type="button" value="Send">
+            </div>
 		</div>
 		<div id="logpanel">
 			<input id ="logbutton" type="button" value="Show Log">
 			<div id="log">
 			</div>
 		</div>
+	</div>
 	</body>
 </html>
