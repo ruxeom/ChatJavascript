@@ -16,6 +16,7 @@ function GUIManager () {
 					loginmngr.testNickname(nick);
 					$('#nickname').text(nick);
 				}
+				console.log(nick);
 			});
 		},
 		"createChatGUI": function() {
@@ -24,24 +25,24 @@ function GUIManager () {
 		},
 		"sendMessage": function() {
 			var input = $('#inputtextarea');
-			if(guimanager.selectedcontact === undefined) {
+			if(this.selectedcontact === undefined) {
 				return;
 			}
-			var messageobj = guimanager.JSONConverter.createJSONMessage(
-										guimanager.contactList[guimanager.selectedcontact].name, 
-										input.val());
+//			console.log($.type(this.contactList));
+			var messageobj = this.JSONConverter.createMessageObject(this.contactList[this.selectedcontact].name, input.val());
 			input.val("");
-			guimanager.communicator.sendMessage(messageobj);
+			this.communicator.sendMessage(messageobj);
 		},
 		"addChatEvents": function(){
 			var manager = this;
 			$('#addcontactbutton').on("click", function() {
 				var contact = prompt("Type the contact's name:");
 				if(contact != null && contact.length > 0) {
+					alert ('correct username');
 					manager.addContact(contact);
 				}
 			});
-			this.communicator.addListener('message', guimanager.messageListener);
+			this.communicator.addListener(guimanager.messageListener);
 			$('#inputtextarea').on("keydown", this.onType);	
 			$('#sendbutton').on("click", this.sendMessage);
 		},
@@ -95,8 +96,7 @@ function GUIManager () {
 					console.log("From "+obj.From+ ":\n"+obj.Message);
 					guimanager.displayMessage(obj);
 				}
-			}
-			
+			}			
 		},
 		"onContactSelected": function() {
 			//this "this" reffers to the object target of the event, in this case,

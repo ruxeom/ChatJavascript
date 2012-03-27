@@ -1,10 +1,11 @@
 
+
 #title
 {
     color: #022261;
     font-family: Trebuchet MS, Arial, Helvetica, sans-seriff;
     font-size: 25px;
-    width: 700px;  
+    width: 500px;  
 }
 
 #loginpanel
@@ -32,37 +33,54 @@
     float: left;
 }
 
-#addcontactbutton, #creategroup
-{
-    background-color: #ffffff;
-    color: #373737;
-    font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
-    border-style: solid;    
-}
+    #addcontactbutton, #creategroup
+    {
+        background-color: #ffffff;
+        color: #373737;
+        font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+        border-style: solid;    
+    }
+    li
+    {
+        width: 100px;
+        padding-left: 10px;
+        cursor: pointer;        
+    }
+    li:hover
+    {
+        color: #1BE03F;
+    }
+    li:active
+    {
+        color: Green;
+    }
+  
 
-#addcontactbutton:active, #creategroup:active
-{
-    border-color: #000000;
-}
-
- /*
-#creategroup
-{
-    background-color: #ffffff;
-    color: #373737;
-    font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
-    border-style: solid;
-}*/
+    #addcontactbutton:active, #creategroup:active
+    {
+        border-color: #6A6A6A;
+    }
 
 #chatpanel
 {
-    width: 600px;  
-
+    width: 350px;
+    float: left;  
 }
-
-    #textarea
+    
+    #contactlog
     {
-        width: 400px;
+        resize: none;
+        font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+        width: 350px;
+        height: 400px;
+        border-style: solid;
+        border-width: thin;
+        border-color: #8CC1C1;
+        float: left;
+    }
+    #inputtextarea
+    {
+        width: 300px;
         height: 50px;
         resize: none;
         font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
@@ -80,7 +98,7 @@
 
 #logpanel
 {
-    width: 600px;
+    width: 350px;
 }
     #logbutton
     {
@@ -88,7 +106,7 @@
         background-color: #9CC7C9;
         font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
         font-size:14px;
-        float: right;   
+        float: right; 
     }
 
 
@@ -106,18 +124,11 @@
     font-style: italic;
 }
 
-#contactlog
-{
-	background-color:#09F;
-	left:150px;	
-	width: 500px;
-	height: 400px;
-}
-
 .scrollable
 {
 	overflow:scroll;
 }
+
 
 
 

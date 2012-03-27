@@ -5,38 +5,40 @@
 		<script type="text/javascript" src="scripts/CommunicationManager.js"></script>
 		<script type="text/javascript" src="scripts/LoginManager.js"></script>
 		<script type="text/javascript" src="scripts/JSONObjectConverter.js"></script>
-		<script type="text/javascript" src="scripts/GUIManager.js"></script>
+        <script type="text/javascript" src="scripts/GUIManager.js"></script>
 		<script type="text/javascript" src="scripts/json.js"></script>
 		<script type="text/javascript" src="scripts/jsonvalidator.js"></script>
 		<script type="text/javascript" src="scripts/Logger.js"></script>
 		<script type="text/javascript" src="scripts/Main.js"></script>
         <script type="text/javascript" src="scripts/Contact.js"></script>
+        <script type="text/javascript" src="scripts/ShowElements.js"></script>
+       
         <link rel="stylesheet" type="text/css" href="styles/style.css" />
 	</head>
 	<body>
     	<div id="loginpanel" class="login">
         	<label for="nickbox">Enter your nickname</label>
             <input id="nickbox" type="text">
-            <input id="nickbutton" type="button" value="Try">
+            <input id="nickbutton" type="button" value="Try" onclick="javascript:showElement();">
         </div>
 	<div id="clientpanel">
 		<div id="title">
 			<p id="nickname">Hello, user</p>
 		</div>
-		<div id="contactpanel">
+		<div id="contactpanel" style="display:none">
         	<input type="button" id="addcontactbutton" value="Add">
             <input type="button" id="creategroup" value="Create Group">
 			<list id="contactlist">
 			</list>
 		</div>
-		<div id="chatpanel">
-            <div id="contactlog" class="scrollable"></div>
-            <div id="input" >
-				<TEXTAREA id="inputtextarea" class="scrollable" rows="4" cols="50"></TEXTAREA>
+		<div id="chatpanel" style="display:none">
+            <div id="contactlog" class="scrollable"></div><br>
+            <div id="input">
+				<TEXTAREA id="inputtextarea" rows="4" cols="50"></TEXTAREA>
 				<input id="sendbutton" type="button" value="Send">
             </div>
 		</div>
-		<div id="logpanel">
+		<div id="logpanel" style="display:none">
 			<input id ="logbutton" type="button" value="Show Log">
 			<div id="log">
 			</div>
