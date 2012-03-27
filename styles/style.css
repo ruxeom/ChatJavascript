@@ -1,0 +1,110 @@
+
+#title
+{
+    color: #022261;
+    font-family: Trebuchet MS, Arial, Helvetica, sans-seriff;
+    font-size: 25px;
+    width: 700px;  
+}
+
+#loginpanel
+{   
+     font-size: 20px;
+     color: #1A97AA;
+     font-family: Trebuchet MS, Arial, Helvetica, sans-seriff;
+}
+    #nickbutton
+    {
+        background-color: #16A5AA;
+        color: #ffffff;
+        font-size: 14px;
+        font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+    }
+
+#contactpanel
+{
+    width: 150px;
+    height: auto;
+    font-family: Trebuchet MS, Arial, Helvetica, sans-seriff;
+    color: #898989;
+    font-size: 15px;
+    font-weight: bold;
+    float: left;
+}
+
+#addcontactbutton, #creategroup
+{
+    background-color: #ffffff;
+    color: #373737;
+    font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+    border-style: solid;    
+}
+
+#addcontactbutton:active, #creategroup:active
+{
+    border-color: #000000;
+}
+
+ /*
+#creategroup
+{
+    background-color: #ffffff;
+    color: #373737;
+    font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+    border-style: solid;
+}*/
+
+#chatpanel
+{
+    width: 600px;  
+}
+
+    #textarea
+    {
+        width: 400px;
+        height: 50px;
+        resize: none;
+        font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+    }
+    #sendbutton
+    {
+        color: #ffffff;
+        background-color: #08B525;
+        font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+        font-size:14px;
+        height: 50px;
+        width: 50px; 
+        position: absolute;
+    }
+
+#logpanel
+{
+    width: 600px;
+}
+    #logbutton
+    {
+        color: #000000;
+        background-color: #9CC7C9;
+        font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+        font-size:14px;
+        float: right;   
+    }
+
+
+#bold
+{
+    background-color: #ffffff;
+    border: 1px solid #ffffff;
+    font-weight: bold;
+}
+
+#italics
+{
+    background-color: #ffffff;
+    border: 1px solid #ffffff;
+    font-style: italic;
+}
+
+
+
+
