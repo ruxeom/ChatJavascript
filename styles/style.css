@@ -57,6 +57,7 @@
 #chatpanel
 {
     width: 600px;  
+
 }
 
     #textarea
@@ -103,6 +104,19 @@
     background-color: #ffffff;
     border: 1px solid #ffffff;
     font-style: italic;
+}
+
+#contactlog
+{
+	background-color:#09F;
+	left:150px;	
+	width: 500px;
+	height: 400px;
+}
+
+.scrollable
+{
+	overflow:scroll;
 }
 
 

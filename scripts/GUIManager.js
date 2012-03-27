@@ -16,7 +16,6 @@ function GUIManager () {
 					loginmngr.testNickname(nick);
 					$('#nickname').text(nick);
 				}
-				console.log(nick);
 			});
 		},
 		"createChatGUI": function() {
@@ -25,24 +24,24 @@ function GUIManager () {
 		},
 		"sendMessage": function() {
 			var input = $('#inputtextarea');
-			if(this.selectedcontact === undefined) {
+			if(guimanager.selectedcontact === undefined) {
 				return;
 			}
-//			console.log($.type(this.contactList));
-			var messageobj = this.JSONConverter.createMessageObject(this.contactList[this.selectedcontact].name, input.val());
+			var messageobj = guimanager.JSONConverter.createJSONMessage(
+										guimanager.contactList[guimanager.selectedcontact].name, 
+										input.val());
 			input.val("");
-			this.communicator.sendMessage(messageobj);
+			guimanager.communicator.sendMessage(messageobj);
 		},
 		"addChatEvents": function(){
 			var manager = this;
 			$('#addcontactbutton').on("click", function() {
 				var contact = prompt("Type the contact's name:");
 				if(contact != null && contact.length > 0) {
-					alert ('correct username');
 					manager.addContact(contact);
 				}
 			});
-			this.communicator.addListener(guimanager.messageListener);
+			this.communicator.addListener('message', guimanager.messageListener);
 			$('#inputtextarea').on("keydown", this.onType);	
 			$('#sendbutton').on("click", this.sendMessage);
 		},
@@ -72,8 +71,30 @@ function GUIManager () {
 			}
 		},
 		"messageListener":function(e) {
-			console.log("gui listened to message");
-			console.log(e.data);
+			var obj = guimanager.JSONConverter.validateMessage(e.data);
+			if(obj) {
+				if(test) {
+					//console.log("From "+obj.To+ ":\n"+obj.Message);
+					
+				}
+				else {
+					if(obj.From == GroupBot) {
+						//we will use a "group" as another contact 
+						//and the server will be in charge of redirecting it
+						//guimanager.addContact();
+					}
+					//if contact is blocked, display nothing
+					if(guimanager.getContactIndex(obj.From, guimanager.blockedContactList)){
+						return;
+					}
+					//if the contact doesn't exist yet, create it
+					if(guimanager.getContactIndex(obj.From, guimanager.contactList)) {
+						guimanager.addContact(obj.From);
+					}
+					//display the message
+					console.log("From "+obj.From+ ":\n"+obj.Message);
+				}
+			}
 			
 		},
 		"onContactSelected": function() {
@@ -81,7 +102,16 @@ function GUIManager () {
 			//the list element target of the click
 			guimanager.selectedcontact = this.id;
 			console.log(guimanager.selectedcontact);
-		}
+		},
+		"getContactIndex": function(contactname, contactlist) {
+			for (var i = 0; i < contactlist.length; i++) {
+				if(contactname == contactlist[i].name) {
+					return i;
+				}
+			}
+			return -1;
+		},
+		
 	}
 	);	
 }
