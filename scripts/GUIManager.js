@@ -23,15 +23,16 @@ function GUIManager () {
 			this.hideLoginGUI();
 			this.addChatEvents();
 		},
-		"sendMessage": function() {
+		"sendMessage": function(e) {
 			var input = $('#inputtextarea');
-			if(this.selectedcontact === undefined) {
+			if(guimanager.selectedcontact === undefined) {
 				return;
 			}
-//			console.log($.type(this.contactList));
-			var messageobj = this.JSONConverter.createJSONMessage(this.contactList[this.selectedcontact].name, input.val());
+			var messageobj = guimanager.JSONConverter.createJSONMessage(
+											guimanager.contactList[guimanager.selectedcontact].name, 
+											input.val());
 			input.val("");
-			this.communicator.sendMessage(messageobj);
+			guimanager.communicator.sendMessage(messageobj);
 		},
 		"addChatEvents": function(){
 			var manager = this;
@@ -43,7 +44,12 @@ function GUIManager () {
 			});
 			this.communicator.addListener('message',guimanager.messageListener);
 			$('#inputtextarea').on("keydown", this.onType);	
-			$('#sendbutton').on("click", this.sendMessage);
+			$('#sendbutton').on("click", guimanager.sendMessage);
+			$('#logbutton').on("click", 
+				function() {
+					$('#log').toggleClass('visible');
+				}
+			);
 		},
 		"updateUserName": function(nickname) {
 			$('#nickname').text(nickname);
@@ -126,9 +132,6 @@ function GUIManager () {
 			$('#from').removeAttr('id');
 			$('#newspan').removeAttr('id');
 		},
-		"dumpToLog": function(e) {
-			$('#log').append(e.data);
-		}
 	}
 	);	
 }

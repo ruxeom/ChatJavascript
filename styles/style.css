@@ -129,7 +129,10 @@
 	overflow:scroll;
 }
 
-
+.visible
+{
+	visibility:hidden;
+}
 
 
 
