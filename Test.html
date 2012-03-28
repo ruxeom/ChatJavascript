@@ -1,55 +1,158 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		
-		<link type="text/css" rel="style/style.css">
+		<script type="text/javascript" src="scripts/jquery.js"></script>
+		<link rel="stylesheet" type="text/css" href="styles/style.css" />
 		<script type="text/javascript">
-		console.log(parseText("fofo", new Array()));
-
-		function parseText(text, array) {
-			var textarray = new Array();
-			var boldindex = -1;
-			var italicsindex = -1;
-			var bold = new RegExp("(.)*\\*(.)*\\*(.)*");
-			var italics = new RegExp("(.)*_{1}(.)*_{1}(.)*");
-			var text = "a*fofo*_*d"
-			var hasBold, hasItalics = false;
-			console.log("bold test "+bold.test(text));
-			if(bold.test(text)) {
-				hasBold = true;
-				boldindex = text.indexOf('*');
-				console.log('bold index: '+ boldindex);
-			}
-			console.log("italics test "+italics.test(text));
-			if(italics.test(text)) {
-				hasItalics = true;
-				italicsindex = text.indexOf('_');
-			}
-			if(hasItalics && hasBold) {
-				
-			}
-			else if (hasItalics){}
-			else if (hasBold) {
-				//we get what's before and between the markers
-				var spliced = text.split('*',2);
-				//we get the rest of the string
-				var rest = text.substring(spliced[0].length+spliced[1].length+2, text.length);
-				console.log(spliced);
-				console.log(rest);
-				if(spliced[0].length > 0) {
-					textarray.push([spliced[0],'n']);
-				}
-				if(spliced[1].length > 0) {
-					textarray.push(spliced[1], 'b');
-				}
-			}
-			else {
-				console.log('pushed');
-				textarray.push([text,'n']);
-			}
-			return(textarray);
+		window.onload = function(){
+			//var text1 = "a*fofo*b"
+			///text1 = parseText(text1);
+			//console.log(parseText(text1));
+			//var text2 = "a_fofo_d"
+			//text2 = parseText(text2);
+			//console.log(text2);
+			//console.log(parseText(text2));
+			var text3 = "a_*fofo*_d"
+			text3 = parseText(text3);
+			console.log(parseText(text3));
+			/*text4 = "a_*fofo"
+			var text4 = parseText(text4);
+			text5 = "hola"
+			var text5 = parseText(text5);
+			text6 = "dude"
+			var text6 = parseText(text6);*/
+			//console.log(text6);
+			var counter = 0;
+			var id = '#contactlog';
+			//alert($(id).attr('id'));
+			createMessageDisplay(text3, "#contactlog", counter);
+			//createMessageDisplay(text1, "#contactlog", counter);
+			//createMessageDisplay(text3, "#contactlog", counter);
+			//createMessageDisplay(text4, "#contactlog", counter);
+			//createMessageDisplay(text5, "#contactlog", counter);
+			//createMessageDisplay(text6, "#contactlog", counter);
 			
+			function parseText(text) {
+				var textarray = new Array();
+				var boldindex = -1;
+				var italicsindex = -1;
+				var bold = new RegExp("(.)*\\*(.)*\\*(.)*");
+				var italics = new RegExp("(.)*_{1}(.)*_{1}(.)*");
+				var hasBold, hasItalics = false;
+				//console.log("bold test "+bold.test(text));
+				if(bold.test(text)) {
+					hasBold = true;
+					boldindex = text.indexOf('*');
+					//console.log('bold index: '+ boldindex);
+				}
+				//console.log("italics test "+italics.test(text));
+				if(italics.test(text)) {
+					hasItalics = true;
+					italicsindex = text.indexOf('_');
+				}
+				if(hasItalics && hasBold) {
+					if(italicsindex < boldindex) {
+						textarray = spliceOnChar(text, '_');
+					}
+					else {
+						textarray = spliceOnChar(text, '*');
+					}
+					textarray[1][0] = parseText(textarray[1][0]);
+					textarray[2][0] = parseText(textarray[2][0]);
+					
+				}
+				else if (hasItalics){
+					textarray = spliceOnChar(text,'_');
+				}
+				else if (hasBold) {
+					textarray = spliceOnChar(text,'*');
+				}
+				else {
+					textarray[0]=new Array(text,0);
+				}
+				return(textarray);
+			}
+			
+			function spliceOnChar(text, char) {
+				//we get what's before and between the markers
+				var textarray = [];
+				var spliced = text.split(char,2);
+				//we get the rest of the string
+				var rest = text.substring(spliced[0].length + spliced[1].length+2, text.length);
+				//console.log(spliced);
+				//console.log(rest);
+				var value = 0;
+				if(char == '*') {
+					value = 1;
+				}
+				else if(char =='_') {
+					value = 2;
+				}
+				textarray[0]= new Array(spliced[0],0);
+				textarray[1]= new Array(spliced[1], value);
+				textarray[2]= new Array(rest, 0);
+				return textarray;
+			}
+			function displayMessage (to, message) {
+				var chatlog = $('#contactlog');
+				chatlog.append('<span id="to"></span><br/>');
+				chatlog.append('<span id="newspan"></span><br/>');
+				$('#newspan').text(message);
+				$('#to').text("To " + to + ":");
+				$('#to').removeAttr('id');
+				$('#newspan').removeAttr('id');
+			}
+			
+			function createMessageDisplay(array, parentID, counter) {
+				var parent = $(parentID);
+				var span = createSpan("",5, parent.attr('id'), counter);
+				//console.log(parent);
+				//parent.append(span);
+				for (var a = 0; a < array.length; a++) {
+					if($.type(array[a]) === "array") {
+						createMessageDisplay(array[a], '#'+span.attr('id'), counter+1+a);
+					}
+					else {
+						var childspan = createSpan(array[0], array[1], span.attr('id'), counter+1)
+						//span.append(childspan);
+						childspan.removeAttr('id');
+						break;
+					}
+				}
+				span.removeAttr('id');
+			}
+			
+			function createSpan(text, cssclass, parentID, counter) {
+				var string = "<span id = '"+counter+"'></span>";
+				var parent = $('#'+parentID);
+				parent.append(string);
+				var span = $('#'+counter);	
+				console.log(text);			
+				span.text(text);
+				var spanclass = '';
+				switch (cssclass) 
+				{
+					case 1: 
+						spanclass = 'bold';
+						break;
+					case 2:
+						spanclass = 'italic';
+						break;
+					default:
+						break;
+				}
+				span.addClass(spanclass);
+//				span.removeAttr('id');
+				return span;
+			}
 		}
 		</script>
 	</head>
+	<body>
+		<div id="contactlog">
+        	<!--<span>fuera<span>dentro</span></span><span class='italic'>fuera<span>dentro</span></span><span class='bold'>fuera<span>dentro</span></span>
+            <br/>-->
+    	</div>
+	</body>
+    
 </html>
