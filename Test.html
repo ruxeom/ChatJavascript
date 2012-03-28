@@ -1,16 +1,55 @@
-<!Document html>
+<!DOCTYPE html>
 <html>
 	<head>
-		<script type="text/javascript" src="scripts/jquery.js"></script>
-		<script type="text/javascript" src="scripts/CommunicationManager.js"></script>
-		<script type="text/javascript" src="scripts/LoginManager.js"></script>
-		<script type="text/javascript" src="scripts/JSONObjectConverter.js"></script>
-		<script type="text/javascript" src="scripts/json.js"></script>
-		<script type="text/javascript" src="scripts/jsonvalidator.js"></script>
-		<script type="text/javascript" src="scripts/Main.js"></script>
+		
 		<link type="text/css" rel="style/style.css">
 		<script type="text/javascript">
+		console.log(parseText("fofo", new Array()));
 
+		function parseText(text, array) {
+			var textarray = new Array();
+			var boldindex = -1;
+			var italicsindex = -1;
+			var bold = new RegExp("(.)*\\*(.)*\\*(.)*");
+			var italics = new RegExp("(.)*_{1}(.)*_{1}(.)*");
+			var text = "a*fofo*_*d"
+			var hasBold, hasItalics = false;
+			console.log("bold test "+bold.test(text));
+			if(bold.test(text)) {
+				hasBold = true;
+				boldindex = text.indexOf('*');
+				console.log('bold index: '+ boldindex);
+			}
+			console.log("italics test "+italics.test(text));
+			if(italics.test(text)) {
+				hasItalics = true;
+				italicsindex = text.indexOf('_');
+			}
+			if(hasItalics && hasBold) {
+				
+			}
+			else if (hasItalics){}
+			else if (hasBold) {
+				//we get what's before and between the markers
+				var spliced = text.split('*',2);
+				//we get the rest of the string
+				var rest = text.substring(spliced[0].length+spliced[1].length+2, text.length);
+				console.log(spliced);
+				console.log(rest);
+				if(spliced[0].length > 0) {
+					textarray.push([spliced[0],'n']);
+				}
+				if(spliced[1].length > 0) {
+					textarray.push(spliced[1], 'b');
+				}
+			}
+			else {
+				console.log('pushed');
+				textarray.push([text,'n']);
+			}
+			return(textarray);
+			
+		}
 		</script>
 	</head>
 </html>
