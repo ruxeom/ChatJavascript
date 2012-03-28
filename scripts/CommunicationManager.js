@@ -11,6 +11,7 @@ function CommunicationManager() {
 			if(serverurl === undefined)
 				serverurl = "ws://echo.websocket.org/";
 			socket = new WebSocket(serverurl);
+			console.log('ready state: '+socket.readyState)
 			this.addListener('message', this.onMessage);
 			console.log('connection established');
 		}, 
@@ -25,6 +26,9 @@ function CommunicationManager() {
 		},
 		"removeListener": function(eventtype, listener) {
 			socket.removeEventListener(eventtype, listener, false);
+		},
+		"getReadyState": function(){
+			return socket.readyState;
 		}
 	});
 }

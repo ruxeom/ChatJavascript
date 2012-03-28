@@ -28,10 +28,11 @@ function GUIManager () {
 			if(guimanager.selectedcontact === undefined) {
 				return;
 			}
-			var messageobj = guimanager.JSONConverter.createJSONMessage(
-											guimanager.contactList[guimanager.selectedcontact].name, 
-											input.val());
+			var message = input.val();
+			var to = guimanager.contactList[guimanager.selectedcontact].name;
+			var messageobj = guimanager.JSONConverter.createJSONMessage(to,message);
 			input.val("");
+			guimanager.displayOutgoingMessage(to, message);
 			guimanager.communicator.sendMessage(messageobj);
 		},
 		"addChatEvents": function(){
@@ -41,6 +42,21 @@ function GUIManager () {
 				if(contact != null && contact.length > 0) {
 					manager.addContact(contact);
 				}
+			});
+			$('#creategroupbutton').on("click", function() {
+				var contactstring = prompt("Type the contacts you want in the group:");
+				if(contactstring != null && contactstring.length > 0) {
+					var contactnames = contactstring.split(" ");
+					var message = this.JSONConverter.createGroupValidationMessage(contactnames);
+					this.communicator.sendMessage(message);
+					if(contact != null && contact.length > 0) {
+						manager.blockContact(contact);
+					}
+				}
+			});
+			$('#blockcontactbutton').on("click", function () {
+				var contactname = prompt("Type the contact you want to ignore:");
+				
 			});
 			this.communicator.addListener('message',guimanager.messageListener);
 			$('#inputtextarea').on("keydown", this.onType);	
@@ -81,13 +97,14 @@ function GUIManager () {
 			if(obj) {
 				if(test) {
 					//console.log("From "+obj.To+ ":\n"+obj.Message);
-					guimanager.displayMessage(obj);
+					guimanager.displayIncomingMessage(obj);
 				}
 				else {
-					if(obj.From == GroupBot) {
+					if(obj.From == 'GroupBot') {
 						//we will use a "group" as another contact 
 						//and the server will be in charge of redirecting it
-						//guimanager.addContact();
+						guimanager.addContact(obj.Message);
+						return;
 					}
 					//if contact is blocked, display nothing
 					if(guimanager.getContactIndex(obj.From, guimanager.blockedContactList)){
@@ -99,7 +116,7 @@ function GUIManager () {
 					}
 					//display the message
 					console.log("From "+obj.From+ ":\n"+obj.Message);
-					guimanager.displayMessage(obj);
+					guimanager.displayIncomingMessage(obj);
 				}
 			}			
 		},
@@ -117,21 +134,30 @@ function GUIManager () {
 			}
 			return -1;
 		},
-		"displayMessage":function(messageobj) {
+		"displayIncomingMessage":function(messageobj) {
 			var message = messageobj.Message;
 			var chatlog = $('#contactlog');
 			chatlog.append('<span id="from"></span><br/>');
 			chatlog.append('<span id="newspan"></span><br/>');
 			$('#newspan').text(message);
 			if(test) {
-				$('#from').text("From " + messageobj.To + ":")
+				$('#from').text("From " + messageobj.To + ":");
 			}
 			else {
-				$('#from').text("From " + messageobj.From + ":")
+				$('#from').text("From " + messageobj.From + ":");
 			}
 			$('#from').removeAttr('id');
 			$('#newspan').removeAttr('id');
 		},
+		"displayOutgoingMessage": function(to, message) {
+			var chatlog = $('#contactlog');
+			chatlog.append('<span id="to"></span><br/>');
+			chatlog.append('<span id="newspan"></span><br/>');
+			$('#newspan').text(message);
+			$('#to').text("To " + to + ":");
+			$('#to').removeAttr('id');
+			$('#newspan').removeAttr('id');
+		}
 	}
 	);	
 }

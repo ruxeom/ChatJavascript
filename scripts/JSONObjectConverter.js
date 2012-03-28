@@ -22,7 +22,12 @@ function JSONObjectConverter() {
 			var messagestring = JSON.stringify(messageobj);
 			return messagestring;
 		},
-		"createGroupMessageObject": function(to, message) {
+		"createGroupValidationMessage": function(message) {
+			var groupvalidation = {};
+			groupobj.To = "GroupBot";
+			groupobj.Message = message;
+			var messageobj = JSON.stringify(groupobj);
+			return messageobj;
 		},
 		"validateMessage": function (jsonobj) {
 			var validObject = this.validator(jsonobj);
