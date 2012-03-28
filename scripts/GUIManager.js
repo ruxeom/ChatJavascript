@@ -95,7 +95,7 @@ function GUIManager () {
 		"messageListener":function(e) {
 			var obj = guimanager.JSONConverter.validateMessage(e.data);
 			if(obj) {
-				if(test) {
+				if(!test) {
 					//console.log("From "+obj.To+ ":\n"+obj.Message);
 					guimanager.displayIncomingMessage(obj);
 				}
@@ -140,7 +140,7 @@ function GUIManager () {
 			chatlog.append('<span id="from"></span><br/>');
 			chatlog.append('<span id="newspan"></span><br/>');
 			$('#newspan').text(message);
-			if(test) {
+			if(!test) {
 				$('#from').text("From " + messageobj.To + ":");
 			}
 			else {

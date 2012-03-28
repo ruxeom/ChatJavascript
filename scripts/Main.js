@@ -1,8 +1,10 @@
 window.onload = function() {
 	//Use a string containing the url of the websocketserver
-	this.serverurl = undefined;
-	//Change this to enter "real" mode
-	this.test = serverurl;
+	this.serverurl = "ws://10.10.28.235:8889/ws";
+	this.test = undefined;
+	if(!serverurl) {
+		this.test = true;
+	}
 	this.login = new LoginManager();
 	this.guimanager = new GUIManager();
 	guimanager.JSONConverter = login.JSONConverter;
