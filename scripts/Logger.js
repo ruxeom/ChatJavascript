@@ -10,6 +10,7 @@ function Logger (communicationmanager) {
 		"sendMessage": function(message) {
 			logger.dumpToLog(message);
 			console.log(message);
+			console.log(socket.readyState);
 			socket.send(message);
 		}
 	});

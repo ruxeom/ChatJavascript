@@ -111,7 +111,7 @@ function GUIManager () {
 	                    //}
 	                }
 	                //if contact is blocked, display nothing
-	                if (guimanager.getBlockedContactIndex(obj.From, guimanager.blockedContactList) > -1) {
+	                if (guimanager.getBlockedContactIndex(obj.From) > -1) {
 	                    return;
 	                }
 	                //if the contact doesn't exist yet, create it
@@ -150,8 +150,8 @@ function GUIManager () {
 	        return -1;
 	    },
 	    "getBlockedContactIndex": function (contactname) {
-			var blockContactList = this.blockedContactList();
-	        for (var i = 0; i < blockContactlist.length; i++) {
+			var blockContactList = this.blockedContactList;
+	        for (var i = 0; i < blockContactList.length; i++) {
 	            if (contactname == blockContactlist[i]) {
 	                return i;
 	            }

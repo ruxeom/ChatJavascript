@@ -10,9 +10,11 @@ function CommunicationManager() {
 			var WEB_SOCKET_SWF_LOCATION = "WebSocketMain.swf";
 			if(serverurl === undefined)
 				serverurl = "ws://echo.websocket.org/";
+			console.log(serverurl);
 			socket = new WebSocket(serverurl);
 			console.log('ready state: '+socket.readyState)
 			this.addListener('message', this.onMessage);
+			//if(socket.readyState == )
 			console.log('connection established');
 		}, 
 		"sendMessage": function(message){

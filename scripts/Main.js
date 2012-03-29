@@ -1,6 +1,6 @@
 window.onload = function() {
 	//Use a string containing the url of the websocketserver
-	this.serverurl = undefined;
+	this.serverurl = "ws://10.10.28.235:8889/ws";
 	this.test = undefined;
 	if(!serverurl) {
 		this.test = true;
