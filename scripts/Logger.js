@@ -2,7 +2,7 @@ function Logger (communicationmanager) {
 	this.log = $('#log');
 	communicationmanager.addListener('message', 
 		function(e) {
-			logger.dumpToLog(e.data);
+			logger.dumpToLog(e.data+"\n");
 			console.log(e.data);
 		}
 	);

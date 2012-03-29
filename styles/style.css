@@ -99,6 +99,7 @@
 #logpanel
 {
     width: 350px;
+	float:right;
 }
     #logbutton
     {
@@ -109,6 +110,12 @@
         float: right; 
     }
 
+#log
+{
+	font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+    font-size:12px;
+	width:400px;
+}
 
 #bold
 {

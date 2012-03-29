@@ -101,7 +101,8 @@ function GUIManager () {
 				}
 				else {
 					if(obj.From == 'GroupBot') {
-						if(guimanager.getContactIndex(obj.From, guimanager.contactList) < 0) {
+						console.log (guimanager.getContactIndex(obj.From, guimanager.contactList));
+						if(guimanager.getContactIndex(obj.Message, guimanager.contactList) < 0) {
 							//we will use a "group" as another contact 
 							//and the server will be in charge of redirecting it
 							guimanager.addContact(obj.Message);
@@ -154,26 +155,37 @@ function GUIManager () {
 		"displayIncomingMessage":function(messageobj) {
 			var message = messageobj.Message;
 			var chatlog = $('#contactlog');
-			chatlog.append('<span id="from"></span><br/>');
-			chatlog.append('<span id="newspan"></span><br/>');
-			$('#newspan').text(message);
+			var span = document.createElement('span');
+			
+			var txtmngr = new textNodeManager(message);
+			var tree = txtmngr.manageText(txtmngr.root);
+			var displaymessage = txtmngr.createDisplayMessage(tree);
+			
 			if(!test) {
-				$('#from').text("From " + messageobj.From + ":");
+				$(span).text("From " + messageobj.From + ":");
 			}
 			else {
-				$('#from').text("From " + messageobj.From + ":");
+				$(span).text("From " + messageobj.To + ":");
 			}
-			$('#from').removeAttr('id');
-			$('#newspan').removeAttr('id');
+			console.log(message);
+			chatlog.append(span);
+			chatlog.append(document.createElement('br'));
+			chatlog.append(displaymessage);
+			chatlog.append(document.createElement('br'));
 		},
 		"displayOutgoingMessage": function(to, message) {
 			var chatlog = $('#contactlog');
-			chatlog.append('<span id="to"></span><br/>');
-			chatlog.append('<span id="newspan"></span><br/>');
-			$('#newspan').text(message);
-			$('#to').text("To " + to + ":");
-			$('#to').removeAttr('id');
-			$('#newspan').removeAttr('id');
+			
+			var txtmnger = new textNodeManager(message);
+			var tree = txtmnger.manageText(txtmnger.root);
+			var displaymessage = txtmnger.createDisplayMessage(tree);
+			
+			var span = document.createElement('span');
+			$(span).text("To " + to + ":");
+			chatlog.append(span);
+			chatlog.append(document.createElement('br'));			
+			chatlog.append(displaymessage);
+			chatlog.append(document.createElement('br'));	
 		}
 	}
 	);	
