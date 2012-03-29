@@ -16,7 +16,6 @@ function GUIManager () {
 	                loginmngr.testNickname(nick);
 	                $('#nickname').text(nick);
 	            }
-	            console.log(nick);
 	        });
 	    },
 	    "createChatGUI": function () {
@@ -46,12 +45,8 @@ function GUIManager () {
 	        $('#creategroupbutton').on("click", function () {
 	            var contactstring = prompt("Type the contacts you want in the group:");
 	            if (contactstring != null && contactstring.length > 0) {
-	                var contactnames = contactstring.split(" ");
-	                var message = this.JSONConverter.createGroupValidationMessage(contactnames);
-	                this.communicator.sendMessage(message);
-	                if (contact != null && contact.length > 0) {
-	                    manager.blockContact(contact);
-	                }
+					var message = guimanager.JSONConverter.createGroupValidationMessage(contactstring);
+	                guimanager.communicator.sendMessage(message);
 	            }
 	        });
 	        $('#blockcontactbutton').on("click", function () {
@@ -59,6 +54,10 @@ function GUIManager () {
 	            guimanager.blockContact(contactname);
 	        });
 	        this.communicator.addListener('message', guimanager.messageListener);
+			this.communicator.addListener('close',  function () {
+					alert("Connection lost, please refresh");
+				}
+			);
 	        $('#inputtextarea').on("keydown", this.onType);
 	        $('#sendbutton').on("click", guimanager.sendMessage);
 	        $('#logbutton').on("click",
@@ -71,23 +70,27 @@ function GUIManager () {
 	        $('#nickname').text(nickname);
 	    },
 	    "addContact": function (contactname) {
-	        var newcontact = new Contact(contactname);
-	        if (this.contactList.length < 1) {
-	            this.selectedcontact = 0;
-	        }
-	        this.contactList.push(newcontact);
-	        var list = '<li id="new"></li>';
-	        $('#contactlist').append(list);
-	        var newitem = $('#new');
-	        newitem.attr('id', this.contactList.length - 1);
-	        newitem.text(contactname);
-	        newitem.on("click", this.onContactSelected);
+			if(guimanager.getContactIndex(contactname) < 0) {
+				var newcontact = new Contact(contactname);
+				this.contactList.push(newcontact);
+				var list = '<li id="new"></li>';
+				$('#contactlist').append(list);
+				var newitem = $('#new');
+				var id = this.contactList.length-1;
+				var str = "contact"+id;
+				newitem.attr('id', str);
+				newitem.text(contactname);
+				newitem.on("click", this.onContactSelected);
+				 if (this.contactList.length < 2) {
+	            	this.selectedcontact = 0;
+					newitem.addClass('selected');
+	        	}
+			}
 	    },
 	    "blockContact": function (contactname) {
 	        this.blockedContactList.push(contactname);
 	    },
 	    "onType": function (e) {
-	        //console.log(e.keyCode);
 	        if (e.keyCode == 13) {
 	            guimanager.sendMessage();
 	        }
@@ -96,47 +99,49 @@ function GUIManager () {
 	        var obj = guimanager.JSONConverter.validateMessage(e.data);
 	        if (obj) {
 	            if (test) {
-	                //console.log("From "+obj.To+ ":\n"+obj.Message);
 	                guimanager.displayIncomingMessage(obj);
 	            }
 	            else {
 	                if (obj.From == 'GroupBot') {
-	                    console.log(guimanager.getContactIndex(obj.From, guimanager.contactList));
-	                    if (guimanager.getContactIndex(obj.Message, guimanager.contactList) < 0) {
+	                    //if (guimanager.getContactIndex(obj.Message, guimanager.contactList) < 0) {
 	                        //we will use a "group" as another contact 
 	                        //and the server will be in charge of redirecting it
 	                        guimanager.addContact(obj.Message);
 	                        return;
-	                    }
+	                    //}
 	                }
 	                //if contact is blocked, display nothing
-	                console.log("blockd: " + guimanager.getContactIndex(obj.From, guimanager.blockedContactList));
-	                console.log("blockedlist: " + guimanager.blockedContactList[0]);
-	                console.log($.type(obj.From));
-	                console.log($.type(guimanager.blockedContactList[0]));
-	                console.log("obj.from, blocked[0]" + obj.From == guimanager.blockedContactList[0]);
 	                if (guimanager.getBlockedContactIndex(obj.From, guimanager.blockedContactList) > -1) {
 	                    return;
 	                }
 	                //if the contact doesn't exist yet, create it
-	                console.log("contact[0] vs blocked[0]: " + guimanager.contactList[0] == guimanager.blockedContactList[0]);
-	                console.log("need 2 add: " + guimanager.getContactIndex(obj.From, guimanager.contactList));
-	                if (guimanager.getContactIndex(obj.From, guimanager.contactList) < 0) {
+	                //else {
 	                    guimanager.addContact(obj.From);
-	                }
+	                //}
 	                //display the message
-	                console.log("From " + obj.From + ":\n" + obj.Message);
 	                guimanager.displayIncomingMessage(obj);
 	            }
 	        }
 	    },
+		"removeSelectedClass": function() {
+			var list = $("ul.main > li");
+			for(var i = 0; i < list.length; i++) {
+				var li = list[i];
+				$(li).removeClass('selected');
+			}
+		},
 	    "onContactSelected": function () {
 	        //this "this" reffers to the object target of the event, in this case,
 	        //the list element target of the click
-	        guimanager.selectedcontact = this.id;
-	        console.log(guimanager.selectedcontact);
+			guimanager.removeSelectedClass();
+			var contactid = this.id;
+			var str = "#"+contactid;
+	        guimanager.selectedcontact = contactid.replace("contact","");
+			$(str).addClass('selected');
+			
 	    },
-	    "getContactIndex": function (contactname, contactlist) {
+	    "getContactIndex": function (contactname) {
+			var contactlist = this.contactList;
 	        for (var i = 0; i < contactlist.length; i++) {
 	            if (contactname == contactlist[i].name) {
 	                return i;
@@ -144,7 +149,8 @@ function GUIManager () {
 	        }
 	        return -1;
 	    },
-	    "getBlockedContactIndex": function (contactname, blockContactlist) {
+	    "getBlockedContactIndex": function (contactname) {
+			var blockContactList = this.blockedContactList();
 	        for (var i = 0; i < blockContactlist.length; i++) {
 	            if (contactname == blockContactlist[i]) {
 	                return i;
@@ -167,7 +173,6 @@ function GUIManager () {
 	        else {
 	            $(span).text("From " + messageobj.To + ":");
 	        }
-	        console.log(message);
 	        chatlog.append(span);
 	        chatlog.append(document.createElement('br'));
 	        chatlog.append(displaymessage);

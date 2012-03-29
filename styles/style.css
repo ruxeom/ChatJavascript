@@ -50,9 +50,9 @@
     {
         color: #1BE03F;
     }
-    li:active
+    .selected
     {
-        color: Green;
+        color: #F00;
     }
   
 

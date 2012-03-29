@@ -24,9 +24,10 @@ function JSONObjectConverter() {
 		},
 		"createGroupValidationMessage": function(message) {
 			var groupvalidation = {};
-			groupobj.To = "GroupBot";
-			groupobj.Message = message;
-			var messageobj = JSON.stringify(groupobj);
+			groupvalidation.To = "GroupBot";
+			groupvalidation.Message = message;
+			var messageobj = JSON.stringify(groupvalidation);
+			console.log(messageobj);
 			return messageobj;
 		},
 		"validateMessage": function (jsonobj) {
