@@ -11,7 +11,6 @@ function LoginManager () {
 		"testNickname": function(nickname) {
 			console.log("testing nickname");
 			this.communicator.sendMessage(this.JSONConverter.createJSONLogin(nickname));
-			guimanager.createChatGUI();//remove
 		},
 		"removeListener": function(eventtype, func) {
 			this.communicator.removeListener(eventtype, func);
@@ -22,7 +21,7 @@ function LoginManager () {
 				if(jsonobj){
 					if (jsonobj.From == 'NickBot' && jsonobj.Message == 'OK') {
 						login.removeListener('message', login.validateLogin);
-						//guimanager.createChatGUI();
+						guimanager.createChatGUI();
 					}
 				}
 			}

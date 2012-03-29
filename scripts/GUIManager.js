@@ -56,7 +56,7 @@ function GUIManager () {
 			});
 			$('#blockcontactbutton').on("click", function () {
 				var contactname = prompt("Type the contact you want to ignore:");
-				
+				guimanager.blockContact(contactname);
 			});
 			this.communicator.addListener('message',guimanager.messageListener);
 			$('#inputtextarea').on("keydown", this.onType);	
@@ -95,23 +95,32 @@ function GUIManager () {
 		"messageListener":function(e) {
 			var obj = guimanager.JSONConverter.validateMessage(e.data);
 			if(obj) {
-				if(!test) {
+				if(test) {
 					//console.log("From "+obj.To+ ":\n"+obj.Message);
 					guimanager.displayIncomingMessage(obj);
 				}
 				else {
 					if(obj.From == 'GroupBot') {
-						//we will use a "group" as another contact 
-						//and the server will be in charge of redirecting it
-						guimanager.addContact(obj.Message);
-						return;
+						if(guimanager.getContactIndex(obj.From, guimanager.contactList) < 0) {
+							//we will use a "group" as another contact 
+							//and the server will be in charge of redirecting it
+							guimanager.addContact(obj.Message);
+							return;
+						}
 					}
 					//if contact is blocked, display nothing
-					if(guimanager.getContactIndex(obj.From, guimanager.blockedContactList)){
+					console.log("blockd: "+guimanager.getContactIndex(obj.From, guimanager.blockedContactList));
+					console.log("blockedlist: "+guimanager.blockedContactList[0]);
+					console.log($.type(obj.From));
+					console.log($.type(guimanager.blockedContactList[0])); 
+					console.log("obj.from, blocked[0]" + obj.From == guimanager.blockedContactList[0]); 
+					if(guimanager.getBlockedContactIndex(obj.From, guimanager.blockedContactList) >-1 ){
 						return;
 					}
 					//if the contact doesn't exist yet, create it
-					if(guimanager.getContactIndex(obj.From, guimanager.contactList)) {
+					console.log("contact[0] vs blocked[0]: "+guimanager.contactList[0] == guimanager.blockedContactList[0]);
+					console.log("need 2 add: "+guimanager.getContactIndex(obj.From, guimanager.contactList));
+					if(guimanager.getContactIndex(obj.From, guimanager.contactList) < 0) {
 						guimanager.addContact(obj.From);
 					}
 					//display the message
@@ -134,6 +143,14 @@ function GUIManager () {
 			}
 			return -1;
 		},
+		"getBlockedContactIndex": function(contactname, blockContactlist) {
+			for (var i = 0; i < blockContactlist.length; i++) {
+				if(contactname == blockContactlist[i]) {
+					return i;
+				}
+			}
+			return -1;
+		},
 		"displayIncomingMessage":function(messageobj) {
 			var message = messageobj.Message;
 			var chatlog = $('#contactlog');
@@ -141,7 +158,7 @@ function GUIManager () {
 			chatlog.append('<span id="newspan"></span><br/>');
 			$('#newspan').text(message);
 			if(!test) {
-				$('#from').text("From " + messageobj.To + ":");
+				$('#from').text("From " + messageobj.From + ":");
 			}
 			else {
 				$('#from').text("From " + messageobj.From + ":");
