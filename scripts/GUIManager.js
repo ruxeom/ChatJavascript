@@ -20,6 +20,7 @@ function GUIManager () {
 	    },
 	    "createChatGUI": function () {
 	        this.hideLoginGUI();
+			this.showElements();
 	        this.addChatEvents();
 	    },
 	    "sendMessage": function (e) {
@@ -173,6 +174,7 @@ function GUIManager () {
 	        else {
 	            $(span).text("From " + messageobj.To + ":");
 	        }
+			span.addAttr('id', messageobj.From);
 	        chatlog.append(span);
 	        chatlog.append(document.createElement('br'));
 	        chatlog.append(displaymessage);
@@ -190,13 +192,40 @@ function GUIManager () {
 
 	        var span = document.createElement('span');
 	        $(span).text("To " + to + ":");
+			span.addAttr('id', to);
 	        chatlog.append(span);
 	        chatlog.append(document.createElement('br'));
 	        chatlog.append(displaymessage);
 	        chatlog.append(document.createElement('br'));
 
 	        $("#contactlog").scrollTop($("#contactlog")[0].scrollHeight);     
-	    }
+	    },
+		"showElements": function () {
+   			var ele = document.getElementById("chatpanel");
+			var ele2 = document.getElementById("contactpanel");
+			//var ele3 = document.getElementById("logpanel");
+		
+			var text = document.getElementById("nickbutton");
+		
+			/*if (ele.style.display == "block") {
+				ele.style.display = "none";
+				text.innerHTML = "show";
+			}
+			if (ele2.style.display == "block") {
+				ele2.style.display = "none";
+				text.innerHTML = "show";
+			}*/
+			/*if (ele3.style.display == "block") {
+				ele3.style.display = "none";
+				text.innerHTML = "show";
+			}*/
+			//else {
+				ele.style.display = "block";
+				ele2.style.display = "block";
+				//ele3.style.display = "block";
+				text.innerHTML = "hide";
+			//}*/
+		}
 	}
 	);	
 }

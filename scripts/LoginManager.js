@@ -27,6 +27,7 @@ function LoginManager () {
 			}
 			else {
 				login.removeListener('message', validateLogin);
+				console.log('validated');
 				guimanager.createChatGUI();
 			}
 		}
