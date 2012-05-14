@@ -2,6 +2,7 @@ function GUIManager () {
 	this.JSONConverter = undefined;
 	this.communicator = undefined;
 	this.selectedcontact = undefined;
+	var that = this;
 	$.extend(this, {
 	    "contactList": new Array(),
 	    "blockedContactList": new Array(),
@@ -24,7 +25,7 @@ function GUIManager () {
 	    },
 	    "sendMessage": function (e) {
 	        var input = $('#inputtextarea');
-	        if (guimanager.selectedcontact === undefined) {
+	        if (that.selectedcontact === undefined) {
 	            return;
 	        }
 	        var message = input.val();

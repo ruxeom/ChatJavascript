@@ -16,7 +16,8 @@ function Logger (communicationmanager) {
 	});
 	$.extend(this, {
 		"dumpToLog":function(string) {
-			logger.log.append(string);
+			var cleanstring = document.createTextNode(string);
+			logger.log.append(cleanstring);
 		}
 	});
 }

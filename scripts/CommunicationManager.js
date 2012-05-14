@@ -7,7 +7,7 @@ function CommunicationManager() {
 			socket.addEventListener(eventtype, funcname, false);
 		},
 		"openConnection": function(serverurl){
-			var WEB_SOCKET_SWF_LOCATION = "WebSocketMain.swf";
+			//var WEB_SOCKET_SWF_LOCATION = "WebSocketMain.swf";
 			if(serverurl === undefined)
 				serverurl = "ws://echo.websocket.org/";
 			console.log(serverurl);

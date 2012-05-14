@@ -100,8 +100,10 @@
 
 #logpanel
 {
+	position:absolute;
     width: 350px;
-	float:right;
+	top:600px;
+	/*float:right;*/
 }
     #logbutton
     {

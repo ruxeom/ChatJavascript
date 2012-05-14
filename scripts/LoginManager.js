@@ -19,7 +19,7 @@ function LoginManager () {
 			if(!test) {
 				var jsonobj = login.JSONConverter.validateMessage(event.data)
 				if(jsonobj){
-					if (jsonobj.From == 'NickBot' && jsonobj.Message == 'OK') {
+					if (jsonobj.From === 'NickBot' && jsonobj.Message === 'OK') {
 						login.removeListener('message', login.validateLogin);
 						guimanager.createChatGUI();
 					}
