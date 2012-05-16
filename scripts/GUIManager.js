@@ -2,22 +2,33 @@ function GUIManager () {
 	this.JSONConverter = undefined;
 	this.communicator = undefined;
 	this.selectedcontact = undefined;
+	
 	$.extend(this, {
 	    "contactList": new Array(),
 	    "blockedContactList": new Array(),
 	    "hideLoginGUI": function () {
 	        $('.login').css('display', 'none');
 	    },
-	    "createLoginGUI": function (loginmngr) {
-	        var nickbtn = $('#nickbutton');
-	        nickbtn.on("click", function () {
+	    "createLoginGUI": function (/*loginmngr*/) {
+			/*var func = function () {
 	            var nick = $('#nickbox').val();
 	            if (nick.length > 0) {
 	                loginmngr.testNickname(nick);
 	                $('#nickname').text(nick);
 	            }
-	        });
+	        }*/
+	        var nickbtn = $('#nickbutton');
+	        nickbtn.on("click", guimanager.testNickname);
+			var nickbox = $('#nickbox');
+			nickbox.on('keydown', guimanager.keyPressedLogin);
 	    },
+		"testNickname": function() {
+			var nick = $('#nickbox').val();
+	        if (nick.length > 0) {
+	            login.testNickname(nick);
+	            $('#nickname').text(nick);
+	        }
+		},
 	    "createChatGUI": function () {
 	        this.hideLoginGUI();
 			this.showElements();
@@ -56,10 +67,10 @@ function GUIManager () {
 	        });
 	        this.communicator.addListener('message', guimanager.messageListener);
 			this.communicator.addListener('close',  function () {
-					alert("Connection lost, please refresh");
+					alert("Connection lost, please refresh the page");
 				}
 			);
-	        $('#inputtextarea').on("keydown", this.onType);
+	        $('#inputtextarea').on("keydown", this.keyPressedChat);
 	        $('#sendbutton').on("click", guimanager.sendMessage);
 	        $('#logbutton').on("click",
 				function () {
@@ -91,11 +102,17 @@ function GUIManager () {
 	    "blockContact": function (contactname) {
 	        this.blockedContactList.push(contactname);
 	    },
-	    "onType": function (e) {
+	    "keyPressedChat": function (e) {
 	        if (e.keyCode == 13) {
 	            guimanager.sendMessage();
+
 	        }
 	    },
+		"keyPressedLogin": function (e) {
+			if (e.keyCode == 13) {
+				guimanager.testNickname();
+			}
+		},
 	    "messageListener": function (e) {
 	        var obj = guimanager.JSONConverter.validateMessage(e.data);
 	        if (obj) {
@@ -174,11 +191,13 @@ function GUIManager () {
 	        else {
 	            $(span).text("From " + messageobj.To + ":");
 	        }
-			span.addAttr('id', messageobj.From);
-	        chatlog.append(span);
-	        chatlog.append(document.createElement('br'));
-	        chatlog.append(displaymessage);
-	        chatlog.append(document.createElement('br'));
+			var p = $(document.createElement('p'));
+			p.append(span);
+			p.append(document.createElement('br'));
+			p.append(displaymessage);
+			p.append(document.createElement('br'));
+			p.addClass((test)?messageobj.To:messageobj.From);
+			chatlog.append(p);
 
 	        $("#contactlog").scrollTop($("#contactlog")[0].scrollHeight);
 	      
@@ -189,15 +208,17 @@ function GUIManager () {
 	        var txtmnger = new textNodeManager(message);
 	        var tree = txtmnger.manageText(txtmnger.root);
 	        var displaymessage = txtmnger.createDisplayMessage(tree);
-
+			
+			var p = $(document.createElement('p'));
 	        var span = document.createElement('span');
 	        $(span).text("To " + to + ":");
-			span.addAttr('id', to);
-	        chatlog.append(span);
-	        chatlog.append(document.createElement('br'));
-	        chatlog.append(displaymessage);
-	        chatlog.append(document.createElement('br'));
+	        p.append(span);
+	        p.append(document.createElement('br'));
+	        p.append(displaymessage);
+	        p.append(document.createElement('br'));
+			p.addClass(to);
 
+			chatlog.append(p);
 	        $("#contactlog").scrollTop($("#contactlog")[0].scrollHeight);     
 	    },
 		"showElements": function () {
