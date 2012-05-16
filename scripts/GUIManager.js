@@ -2,30 +2,41 @@ function GUIManager () {
 	this.JSONConverter = undefined;
 	this.communicator = undefined;
 	this.selectedcontact = undefined;
-	var that = this;
+
 	$.extend(this, {
 	    "contactList": new Array(),
 	    "blockedContactList": new Array(),
 	    "hideLoginGUI": function () {
 	        $('.login').css('display', 'none');
 	    },
-	    "createLoginGUI": function (loginmngr) {
-	        var nickbtn = $('#nickbutton');
-	        nickbtn.on("click", function () {
+	    "createLoginGUI": function (/*loginmngr*/) {
+			/*var func = function () {
 	            var nick = $('#nickbox').val();
 	            if (nick.length > 0) {
 	                loginmngr.testNickname(nick);
 	                $('#nickname').text(nick);
 	            }
-	        });
+	        }*/
+	        var nickbtn = $('#nickbutton');
+	        nickbtn.on("click", guimanager.testNickname);
+			var nickbox = $('#nickbox');
+			nickbox.on('keydown', guimanager.keyPressedLogin);
 	    },
+		"testNickname": function() {
+			var nick = $('#nickbox').val();
+	        if (nick.length > 0) {
+	            login.testNickname(nick);
+	            $('#nickname').text(nick);
+	        }
+		},
 	    "createChatGUI": function () {
 	        this.hideLoginGUI();
+			this.showElements();
 	        this.addChatEvents();
 	    },
 	    "sendMessage": function (e) {
 	        var input = $('#inputtextarea');
-	        if (that.selectedcontact === undefined) {
+	        if (guimanager.selectedcontact === undefined) {
 	            return;
 	        }
 	        var message = input.val();
@@ -59,7 +70,7 @@ function GUIManager () {
 					alert("Connection lost, please refresh");
 				}
 			);
-	        $('#inputtextarea').on("keydown", this.onType);
+	        $('#inputtextarea').on("keydown", this.keyPressedChat);
 	        $('#sendbutton').on("click", guimanager.sendMessage);
 	        $('#logbutton').on("click",
 				function () {
@@ -91,11 +102,17 @@ function GUIManager () {
 	    "blockContact": function (contactname) {
 	        this.blockedContactList.push(contactname);
 	    },
-	    "onType": function (e) {
+	    "keyPressedChat": function (e) {
 	        if (e.keyCode == 13) {
 	            guimanager.sendMessage();
+				
 	        }
 	    },
+		"keyPressedLogin": function (e) {
+			if (e.keyCode == 13) {
+				guimanager.testNickname();
+			}
+		},
 	    "messageListener": function (e) {
 	        var obj = guimanager.JSONConverter.validateMessage(e.data);
 	        if (obj) {
@@ -197,7 +214,33 @@ function GUIManager () {
 	        chatlog.append(document.createElement('br'));
 
 	        $("#contactlog").scrollTop($("#contactlog")[0].scrollHeight);     
-	    }
+	    },
+		"showElements": function () {
+   			var ele = document.getElementById("chatpanel");
+			var ele2 = document.getElementById("contactpanel");
+			//var ele3 = document.getElementById("logpanel");
+		
+			var text = document.getElementById("nickbutton");
+		
+			/*if (ele.style.display == "block") {
+				ele.style.display = "none";
+				text.innerHTML = "show";
+			}
+			if (ele2.style.display == "block") {
+				ele2.style.display = "none";
+				text.innerHTML = "show";
+			}*/
+			/*if (ele3.style.display == "block") {
+				ele3.style.display = "none";
+				text.innerHTML = "show";
+			}*/
+			//else {
+				ele.style.display = "block";
+				ele2.style.display = "block";
+				//ele3.style.display = "block";
+				text.innerHTML = "hide";
+			//}*/
+		}
 	}
 	);	
 }
