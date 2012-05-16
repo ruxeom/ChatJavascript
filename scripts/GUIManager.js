@@ -96,8 +96,13 @@ function GUIManager () {
 				 if (this.contactList.length < 2) {
 	            	this.selectedcontact = 0;
 					newitem.addClass('selected');
+					guimanager.makeOnlyVisibleContact(id);
+					console.log('doing it right');
 	        	}
+				//here we can add a 'color' property for each contact
+				return id;
 			}
+			return null;
 	    },
 	    "blockContact": function (contactname) {
 	        this.blockedContactList.push(contactname);
@@ -114,9 +119,12 @@ function GUIManager () {
 			}
 		},
 	    "messageListener": function (e) {
+			
 	        var obj = guimanager.JSONConverter.validateMessage(e.data);
 	        if (obj) {
+				console.log('hey');
 	            if (test) {
+					guimanager.addContact(obj.To);
 	                guimanager.displayIncomingMessage(obj);
 	            }
 	            else {
@@ -151,12 +159,18 @@ function GUIManager () {
 	    "onContactSelected": function () {
 	        //this "this" reffers to the object target of the event, in this case,
 	        //the list element target of the click
-			guimanager.removeSelectedClass();
 			var contactid = this.id;
-			var str = "#"+contactid;
-	        guimanager.selectedcontact = contactid.replace("contact","");
-			$(str).addClass('selected');
-			
+			var id = contactid.replace("contact","")
+			if(id != guimanager.selectedcontact) {
+				guimanager.removeSelectedClass();
+				
+				var str = "#"+contactid;
+				guimanager.selectedcontact = id;
+				$(str).removeClass('alerted');
+				$(str).addClass('selected');
+				guimanager.makeOnlyVisibleContact(id);	
+				$("#contactlog").scrollTop($("#contactlog")[0].scrollHeight);	
+			}
 	    },
 	    "getContactIndex": function (contactname) {
 			var contactlist = this.contactList;
@@ -184,21 +198,26 @@ function GUIManager () {
 	        var txtmngr = new textNodeManager(message);
 	        var tree = txtmngr.manageText(txtmngr.root);
 	        var displaymessage = txtmngr.createDisplayMessage(tree);
-
-	        if (!test) {
-	            $(span).text("From " + messageobj.From + ":");
-	        }
-	        else {
-	            $(span).text("From " + messageobj.To + ":");
-	        }
+			var from = (test)? messageobj.To : messageobj.From;
+			var index = guimanager.getContactIndex(from);
+			
+			$(span).text("From " + from + ":");
 			var p = $(document.createElement('p'));
 			p.append(span);
 			p.append(document.createElement('br'));
 			p.append(displaymessage);
 			p.append(document.createElement('br'));
-			p.addClass((test)?messageobj.To:messageobj.From);
-			chatlog.append(p);
+			p.addClass('chatitem c'+index);			
+			if(index == guimanager.selectedcontact){
+				p.addClass('visible');
+			}
+			else {
+				//give the label a "new message" font-color with a css class
+				var str = '#contact'+index;
+				$(str).addClass('alerted');
+			}
 
+			chatlog.append(p);
 	        $("#contactlog").scrollTop($("#contactlog")[0].scrollHeight);
 	      
 	    },
@@ -211,13 +230,19 @@ function GUIManager () {
 			
 			var p = $(document.createElement('p'));
 	        var span = document.createElement('span');
+			var index = guimanager.getContactIndex(to);
+			
 	        $(span).text("To " + to + ":");
 	        p.append(span);
 	        p.append(document.createElement('br'));
 	        p.append(displaymessage);
 	        p.append(document.createElement('br'));
-			p.addClass(to);
-
+			p.addClass("chatitem c"+this.getContactIndex(to));
+			
+			if(index == guimanager.selectedcontact){
+				p.addClass('visible');
+			}
+			
 			chatlog.append(p);
 	        $("#contactlog").scrollTop($("#contactlog")[0].scrollHeight);     
 	    },
@@ -246,6 +271,17 @@ function GUIManager () {
 				//ele3.style.display = "block";
 				text.innerHTML = "hide";
 			//}*/
+		},
+		"makeOnlyVisibleContact": function(id) {
+			var chatitems = $('.chatitem');
+			for(var i = 0; i < chatitems.length; i++) {
+				$(chatitems[i]).removeClass('visible');
+			}
+			
+			chatitems = $('.c'+id);
+			for(var i = 0; i < chatitems.length; i++) {
+				$(chatitems[i]).addClass('visible');
+			}
 		}
 	}
 	);	
