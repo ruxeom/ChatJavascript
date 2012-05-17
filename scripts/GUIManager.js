@@ -1,4 +1,4 @@
-function GUIManager () {
+ function GUIManager () {
 	this.JSONConverter = undefined;
 	this.communicator = undefined;
 	this.selectedcontact = undefined;
@@ -83,6 +83,7 @@ function GUIManager () {
 	        $('#nickname').text(nickname);
 	    },
 	    "addContact": function (contactname) {
+			console.log('contact added');
 			if(guimanager.getContactIndex(contactname) < 0) {
 				var newcontact = new Contact(contactname);
 				this.contactList.push(newcontact);
@@ -97,7 +98,7 @@ function GUIManager () {
 				 if (this.contactList.length < 2) {
 	            	this.selectedcontact = 0;
 					newitem.addClass('selected');
-					guimanager.makeOnlyVisibleContact(id);
+					//guimanager.makeOnlyVisibleContact(id);
 					console.log('doing it right');
 	        	}
 				//here we can add a 'color' property for each contact
@@ -123,9 +124,8 @@ function GUIManager () {
 			
 	        var obj = guimanager.JSONConverter.validateMessage(e.data);
 	        if (obj) {
-				console.log('hey');
 	            if (test) {
-					guimanager.addContact(obj.To);
+					//guimanager.addContact(obj.To);
 	                guimanager.displayIncomingMessage(obj);
 	            }
 	            else {
@@ -143,7 +143,7 @@ function GUIManager () {
 	                }
 	                //if the contact doesn't exist yet, create it
 	                //else {
-	                    guimanager.addContact(obj.From);
+	                    //guimanager.addContact(obj.From);
 	                //}
 	                //display the message
 	                guimanager.displayIncomingMessage(obj);
@@ -169,7 +169,7 @@ function GUIManager () {
 				guimanager.selectedcontact = id;
 				$(str).removeClass('alerted');
 				$(str).addClass('selected');
-				guimanager.makeOnlyVisibleContact(id);	
+				//guimanager.makeOnlyVisibleContact(id);	
 				$("#contactlog").scrollTop($("#contactlog")[0].scrollHeight);	
 			}
 	    },
@@ -209,19 +209,19 @@ function GUIManager () {
 			p.append(displaymessage);
 			p.append(document.createElement('br'));
 			p.addClass('chatitem c'+index);			
-			if(index == guimanager.selectedcontact){
+			/*if(index == guimanager.selectedcontact){
 				p.addClass('visible');
 			}
 			else {
 				//give the label a "new message" font-color with a css class
 				var str = '#contact'+index;
-				$(str).addClass('alerted');
-			}
+				//$(str).addClass('alerted');
+			}*/
 
 			var timeout = setTimeout(function(){
 				chatlog.append(p);
 	        	$("#contactlog").scrollTop($("#contactlog")[0].scrollHeight);
-			}, 600);
+			}, 1000);
 			//chatlog.append(p);
 	        //$("#contactlog").scrollTop($("#contactlog")[0].scrollHeight);
 	      
@@ -251,7 +251,7 @@ function GUIManager () {
 			var timeout = setTimeout(function(){
 				chatlog.append(p);
 	        	$("#contactlog").scrollTop($("#contactlog")[0].scrollHeight);
-			}, 600);
+			}, 1000);
 			//chatlog.append(p);
 	        //$("#contactlog").scrollTop($("#contactlog")[0].scrollHeight);     
 	    },
