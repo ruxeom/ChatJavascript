@@ -70,7 +70,7 @@ function GUIManager () {
 					alert("Connection lost, please refresh");
 				}
 			);
-	        $('#inputtextarea').on("keydown", this.keyPressedChat);
+	        //$('#inputtextarea').on("keydown", this.keyPressedChat);
 	        $('#sendbutton').on("click", guimanager.sendMessage);
 	        $('#logbutton').on("click",
 				function () {
@@ -196,7 +196,7 @@ function GUIManager () {
 	        chatlog.append(displaymessage);
 	        chatlog.append(document.createElement('br'));
 
-	        $("#contactlog").scrollTop($("#contactlog")[0].scrollHeight);
+	        //$("#contactlog").scrollTop($("#contactlog")[0].scrollHeight);
 	      
 	    },
 	    "displayOutgoingMessage": function (to, message) {
@@ -213,7 +213,7 @@ function GUIManager () {
 	        chatlog.append(displaymessage);
 	        chatlog.append(document.createElement('br'));
 
-	        $("#contactlog").scrollTop($("#contactlog")[0].scrollHeight);     
+	        //$("#contactlog").scrollTop($("#contactlog")[0].scrollHeight);     
 	    },
 		"showElements": function () {
    			var ele = document.getElementById("chatpanel");
