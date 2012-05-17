@@ -8,6 +8,7 @@ function GUIManager () {
 	    "blockedContactList": new Array(),
 	    "hideLoginGUI": function () {
 	        $('.login').css('display', 'none');
+			$('#nickbox').unbind('keydown', guimanager.keyPressedLogin);
 	    },
 	    "createLoginGUI": function (/*loginmngr*/) {
 			/*var func = function () {
@@ -18,7 +19,7 @@ function GUIManager () {
 	            }
 	        }*/
 	        var nickbtn = $('#nickbutton');
-	        nickbtn.on("click", guimanager.testNickname);
+	        nickbtn.on('click', guimanager.testNickname);
 			var nickbox = $('#nickbox');
 			nickbox.on('keydown', guimanager.keyPressedLogin);
 	    },
@@ -217,8 +218,12 @@ function GUIManager () {
 				$(str).addClass('alerted');
 			}
 
-			chatlog.append(p);
-	        $("#contactlog").scrollTop($("#contactlog")[0].scrollHeight);
+			var timeout = setTimeout(function(){
+				chatlog.append(p);
+	        	$("#contactlog").scrollTop($("#contactlog")[0].scrollHeight);
+			}, 600);
+			//chatlog.append(p);
+	        //$("#contactlog").scrollTop($("#contactlog")[0].scrollHeight);
 	      
 	    },
 	    "displayOutgoingMessage": function (to, message) {
@@ -243,8 +248,12 @@ function GUIManager () {
 				p.addClass('visible');
 			}
 			
-			chatlog.append(p);
-	        $("#contactlog").scrollTop($("#contactlog")[0].scrollHeight);     
+			var timeout = setTimeout(function(){
+				chatlog.append(p);
+	        	$("#contactlog").scrollTop($("#contactlog")[0].scrollHeight);
+			}, 600);
+			//chatlog.append(p);
+	        //$("#contactlog").scrollTop($("#contactlog")[0].scrollHeight);     
 	    },
 		"showElements": function () {
    			var ele = document.getElementById("chatpanel");
