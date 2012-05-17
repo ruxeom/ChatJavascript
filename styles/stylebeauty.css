@@ -1,0 +1,160 @@
+#title
+{
+   /* color: #022261;*/
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    font-size: 25px;
+    width: 500px;  
+}
+
+#loginpanel
+{   
+     font-size: 20px;
+     /*color: #1A97AA;*/
+     font-family: "Comic Sans MS", cursive, sans-serif;
+}
+    #nickbutton
+    {
+       /* background-color: #16A5AA;
+        color: #ffffff;*/
+        font-size: 14px;
+        font-family:"Times New Roman", Times, serif;
+    }
+
+#contactpanel
+{
+    width: 300px;
+    height: auto;
+    font-family: "Times New Roman", Times, serif;
+    /*color: #898989;*/
+    font-size: 15px;
+    font-weight: bold;
+    float: left;
+}
+
+    #addcontactbutton, #creategroupbutton, #blockcontactbutton
+    {
+       /* background-color: #ffffff;
+        color: #373737;*/
+        font-family:"Times New Roman", Times, serif;
+       /* border-style: solid;    */
+    }
+    li
+    {
+        width: 100px;
+        padding-left: 10px;
+        cursor: pointer;        
+    }
+    li:hover
+    {
+        /*color: #1BE03F;*/
+    }
+    .selected
+    {
+        /*color: #F00;*/
+        text-decoration:underline;
+    }
+  
+
+    #addcontactbutton:active, #creategroup:active
+    {
+        /*border-color: #6A6A6A;*/
+    }
+
+#chatpanel
+{
+    width: 350px;
+    float: left;  
+}
+    
+    #contactlog
+    {
+        resize: none;
+        font-family:"Times New Roman", Times, serif;
+        width: 350px;
+        height: 400px;
+       /* border-style: solid;
+        border-width: thin;
+        border-color: #8CC1C1;*/
+        float: left;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+    #inputtextarea
+    {
+        width: 300px;
+       /* height: 50px;*/
+        resize: none;
+        font-family:"Times New Roman", Times, serif;
+    }
+    #sendbutton
+    {
+        /*color: #ffffff;
+        background-color: #08B525;*/
+        font-family:"Times New Roman", Times, serif;
+        font-size:14px;
+        height: 25px;
+        width: 50px; 
+        position: absolute;
+    }
+
+#logpanel
+{
+    width: 350px;
+	float:right;
+}
+    #logbutton
+    {
+        /*color: #000000;
+        background-color: #9CC7C9;*/
+        font-family:"Times New Roman", Times, serif;
+        font-size:14px;
+        float: right; 
+    }
+
+#log
+{
+	font-family:"Times New Roman", Times, serif;
+    font-size:12px;
+	width:400px;
+}
+
+#bold
+{
+    background-color: #ffffff;
+    border: 1px solid #ffffff;
+    font-weight: bold;
+}
+
+#italics
+{
+    background-color: #ffffff;
+    border: 1px solid #ffffff;
+    font-style: italic;
+}
+
+.chatitem
+{
+	
+}
+
+.visible
+{
+	/*visibility:hidden;*/
+	display:block;
+}
+
+.italic
+{
+	font-style:italic;
+}
+
+.bold
+{
+	font-weight:bold;
+}
+
+.alerted
+{
+	/*color: #00C;*/
+	font-style:italic;
+}
